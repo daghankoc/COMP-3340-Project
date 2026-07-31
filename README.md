@@ -9,6 +9,10 @@ Product images and videos are in the prod-asset-data of the submitted zip folder
 test admin login: testadmin
 password: password12345
 
+Github: https://github.com/daghankoc/COMP-3340-Project
+
+Live Link: https://kocd.myweb.cs.uwindsor.ca/comp3340-project/index.php
+
 # Local installation
 
 1. Start a mysql db
