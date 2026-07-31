@@ -1,28 +1,49 @@
 <?php 
     require_once 'lib/database.php';
-    // get cart of the user from database
-    $items = $db->getCartItems();
+
+    //clear cart logic
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' &&isset($_POST['clear_cart'])) {
+        //db call
+        $db->clearCart($_SESSION['user']['id']);
+    }
+
+    //get the cart items of the user
+    $items = $db->getCartItems($_SESSION['user']['id']);
+
+    //calculate the total of the cart
+    $total = 0;
+    
+    //cart loop
+    foreach ($items as $item) {
+        $total += $item['price'] * $item['count'];
+    }
+   
 ?>
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Cart</title>
-    <meta name="author" content="Daghan Koc">
-  </head>
-  <body>
-    <?php if (count($items) > 0) : ?>
-      <div class="cart-floating">
-          <h1>Shopping Cart</h1>
-          <?php foreach ($items as $item) : ?>
-            <div class="product">
-              <h2><?php echo $item['name']; ?></h2>
-              <p><?php echo $item['description']; ?></p>
-              <p><?php echo $item['price']; ?></p>
-              <a href="product.php?id=<?php echo $item['id']; ?>">View Product</a>
+
+<?php if (count($items) > 0): ?>
+    <div class="cart-floating">
+        <h1>Shopping Cart</h1>
+
+        <?php foreach ($items as $item): ?>
+            <div class="cart-product">
+                <p><?php echo $item['name']; ?></p>
+                <p>$<?php echo $item['price']; ?></p>
+                <p>x</p>
+                <p><?php echo $item['count']; ?></p>
             </div>
-          <?php endforeach; ?>
-          <a href="checkout.php">Checkout</a>
-      </div>
-    <?php endif; ?>
-  </body>
-</html>
+        <?php endforeach; ?>
+
+        <div class="cart-product">
+            <p>Total: $<?php echo $total; ?></p>
+        </div>
+
+        <a href="checkout.php" class="add-product-button">Checkout</a>
+
+        <form method="post">
+            <button type="submit" class="add-product-button" name="clear_cart" value="1">
+                Clear Cart
+            </button>
+        </form>
+        <a href="help-cart.php">Help(Cart)</a>
+    </div>
+<?php endif; ?>

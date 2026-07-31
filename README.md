@@ -1,3 +1,23 @@
+# PHP CSS HTML COMP 3340 Project
+
+This is the store php project for the COMP 3340.
+
+Database connection config is in the database lib php file. Seed and table sql is in the docker folder as seed.sql.
+
+Product images and videos are in the prod-asset-data of the submitted zip folder. I ignored them for git. I used the platform the add the products one by one from the admin panel.
+
+test admin login: testadmin
+password: password12345
+
+# Local installation
+
+1. Start a mysql db
+2. replace the cofig in the lib/database.php file
+3. run the seed on the db
+4. run the php server index.php is the main store page
+
+# Database Design
+
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE,
@@ -82,15 +102,3 @@ CREATE TABLE product_visuals (
     REFERENCES products(id)
     ON DELETE CASCADE
 );
-
-
-INSERT INTO users (username, password) VALUES ('testuser', 'password12345');
-INSERT INTO users (username, password, role) VALUES ('testadmin', 'password12345', 'admin');
-
-INSERT INTO products (name, description, price, cover_image, rating) VALUES
-  ('Product 1', 'Good Product 1', 9.99, './images/product.jpg', 3),
-  ('Product 2', 'Good Product', 19.99, './images/product.jpg', 4);
-
-INSERT INTO product_visuals (product_id, src, type) VALUES
-  (1, './images/product.jpg', 'image'),
-  (1, './images/product.jpg', 'image');

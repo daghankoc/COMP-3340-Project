@@ -1,13 +1,41 @@
 <?php 
     //session to keep session data
     session_start(); 
+
+    //themes preset
+    $themes = ['light' => 'stylesheet_light.css','red'  => 'stylesheet_red.css', 'green'  => 'stylesheet_green.css'];
+
+    // set theme at the top from the admin page
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['select_theme'])) {
+        //ffallback to light
+        $selectedTheme = $_POST['theme'] ?? 'light';
+
+        //if themes not set before
+        if (isset($themes[$selectedTheme])) {
+            $_SESSION['theme'] = $selectedTheme;
+        }
+
+        // refresh to set theme
+        header('Location: admin.php');
+        exit;
+    }
+
+    $currentTheme = $_SESSION['theme'] ?? 'light';
+
+    if (!isset($themes[$currentTheme])) {
+        $currentTheme = 'light';
+    }
+
+    //set the current theme
+    $themeStylesheet = $themes[$currentTheme];
 ?>
-<link rel="stylesheet" href="stylesheet_light.css">
+<link rel="stylesheet" href="<?php echo $themeStylesheet; ?>">
+<link rel="icon" href="favicon.ico">
 <header>
     <div class="header">
         <div class="">
             <!-- always available header items -->
-            <a href="store.php" class="header-item">Home</a>
+            <a href="index.php" class="header-item">Store</a>
             <a href="help.php" class="header-item">Help</a>
         </div>
         <div class="header-items">

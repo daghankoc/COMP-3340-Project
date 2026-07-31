@@ -5,27 +5,38 @@
     //get the user filled that and the sign up the user
     $db = new Database();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $db->signupUser($username, $password);
+      //get the post form variables
+      $username = $_POST['username'];
+      $password = $_POST['password'];
+
+      //db call
+      $db->signupUser($username, $password);
+
+      //redirect to login
+      echo "<script>window.location.href = 'login.php';</script>";
+      exit;
     }
 ?>
 <!DOCTYPE html>
 <html>
   <head>
     <title>Signup</title>
+    <meta charset="UTF-8">
     <meta name="author" content="Daghan Koc">
-    <link rel="stylesheet" href="stylesheet_light.css">
+    <meta name="description" content="Signup page for the store">
+    <meta name="keywords" content="minipc, user, signup">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="favicon.ico">
   </head>
   <body>
     <div class="signup-container">
       <h1>Signup</h1>
       <div class="signup-form">
         <form method="post" action="signup.php" class="login-form">
+          <p>Enter username and password to signup.</p>
           <input type="text" name="username" placeholder="Username" class="login-input">
-            <input type="password" name="password" placeholder="Password" class="login-input">
-            <input type="password" name="confirm_password" placeholder="Confirm Password" class="login-input">
-            <input type="submit" value="Signup" class="login-button">
+          <input type="password" name="password" placeholder="Password" class="login-input">
+          <input type="submit" value="Signup" class="login-button">
         </form>
       </div>
     </div>
